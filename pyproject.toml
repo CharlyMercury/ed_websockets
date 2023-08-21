@@ -1,0 +1,25 @@
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Ed_WebSockets"
+version = "0.0.1"
+authors = [
+    {name="Carlos Tovar", email="carlos.mercury92@gmail.com"}
+]
+description = "Interface Ed_WebSockets"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OS Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[projects.urls]
+"Homepage" = "http://.example.com"
+"Bug Tracker" = "http://example.com/issues"
+
+# pip install --upgrade build
+# py -m build
+# pip install -e .
