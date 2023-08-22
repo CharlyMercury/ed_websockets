@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="static/css/styles.css">
     </head>
     <body>
-        <h1> Panel de Control: {{ variable["plantel"] }} </h1>
+        <h1> Panel de Control: {{ variable[0][0]["plantel"] }} </h1>
         <h2>Your ID: <span id="ws-id"></span></h2>
         <form action="" onsubmit="sendMessage(event)">
             <input type="text" id="messageText" autocomplete="off"/>
@@ -17,35 +17,33 @@
         <div class="card">
             <h2> Hora de Encendido </h2>
             <div class="input-group">
-                <label for="hours"> Hora: </label>
-                <input type="number" id="on_hour" placeholder="0" min="0" max="23">
+                <label for="hours"> Hora (24 hrs.): </label>
+                <input type="number" id="on_hour" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_on_time"][0]}}" min="0" max="23">
             </div>
             <div class="input-group">
                 <label for="minutes"> Minuto: </label>
-                <input type="number" id="on_minute" placeholder="0" min="0" max="59">
+                <input type="number" id="on_minute" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_on_time"][1]}}" min="0" max="59">
             </div>
             <div class="input-group">
                 <label for="seconds"> Segundo: </label>
-                <input type="number" id="on_second" placeholder="0" min="0" max="59">
+                <input type="number" id="on_second" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_on_time"][2]}}" min="0" max="59">
             </div>
-            <button onclick="saveTime()"> Guardar </button>
         </div>
 
         <div class="card">
             <h2> Hora de Apagado </h2>
             <div class="input-group">
-                <label for="hours"> Hora: </label>
-                <input type="number" id="off_hour" placeholder="0" min="0" max="23">
+                <label for="hours"> Hora (24 hrs.): </label>
+                <input type="number" id="off_hour" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_off_time"][0]}}" min="0" max="23">
             </div>
             <div class="input-group">
                 <label for="minutes">  Minuto: </label>
-                <input type="number" id="off_minute" placeholder="0" min="0" max="59">
+                <input type="number" id="off_minute" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_off_time"][1]}}" min="0" max="59">
             </div>
             <div class="input-group">
                 <label for="seconds"> Segundo: </label>
-                <input type="number" id="off_second" placeholder="0" min="0" max="59">
+                <input type="number" id="off_second" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["turn_off_time"][2]}}" min="0" max="59">
             </div>
-            <button onclick="saveTime()"> Guardar </button>
         </div>
 
         <div class="card">
@@ -80,30 +78,27 @@
                     <label for="sunday"> Domingo </label>
                 </div>
             </div>
-            <button onclick="saveTime()"> Gardar </button>
         </div>
 
         <div class="card">
             <h2> Zona Horaria </h2>
             <div class="input-group">
                 <label for="hours"> Zona horaria: </label>
-                <input type="number" id="timezone" placeholder="0" min="-12" max="14">
+                <input type="number" id="timezone" placeholder=0 value="{{variable[0][1]["pcb_parameters"]["timezone_offset"]}}" min="-12" max="14">
             </div>
-            <button onclick="saveTime()"> Guardar </button>
         </div>
 
         <div class="card">
             <h2>  Parámetros WiFi </h2>
             <div class="card-content">
                 <div class="input-group">
-                    <label for="parameter1"> SSID: </label>
-                    <input type="text" id="ssid" placeholder=" Nombre de la Red ">
+                    <label for="parameter1"> Nombre de la Red: </label>
+                    <input type="text" id="ssid" placeholder=" Nombre de la Red " value="{{variable[0][1]["pcb_parameters"]["wifi_parameters"]["ssid"]}}">
                 </div>
                 <div class="input-group">
                     <label for="parameter2"> Contraseña: </label>
-                    <input type="text" id="password" placeholder=" Contraseña ">
+                    <input type="text" id="password" placeholder=" Contraseña " value="{{variable[0][1]["pcb_parameters"]["wifi_parameters"]["password"]}}">
                 </div>
-                <button onclick="processParameters()"> Guardar </button>
             </div>
         </div>
 
@@ -112,9 +107,8 @@
             <div class="card-content">
                 <div class="input-group">
                     <label for="parameter3"> PCB Id: </label>
-                    <input type="text" id="pcb_id" placeholder=" 1 ">
+                    <input type="text" id="pcb_id" placeholder=1 value="{{variable[0][1]["pcb_parameters"]["pcb_id"]}}">
                 </div>
-                <button onclick="processParameters()"> Guardar </button>
             </div>
         </div>
 
@@ -123,13 +117,12 @@
             <div class="card-content">
                 <div class="input-group">
                     <label for="parameter1"> Característica 1 : </label>
-                    <input type="text" id="detail1" placeholder="PCB installed in CBTIS 0. ">
+                    <textarea type="text" id="detail1" placeholder=" PCB installed in CBTIS 0. "> {{variable[0][1]["pcb_parameters"]["pcb_details"][0]}} </textarea>
                 </div>
                 <div class="input-group">
                     <label for="parameter2"> Característica 2: </label>
-                    <input type="text" id="detail2" placeholder=" PCB  installed next to main building. ">
+                    <textarea type="text" id="detail2" placeholder=" PCB installed next to main building."> {{variable[0][1]["pcb_parameters"]["pcb_details"][1]}} </textarea>
                 </div>
-                <button onclick="processParameters()"> Guardar </button>
             </div>
         </div>
 
@@ -138,9 +131,8 @@
             <div class="card-content">
                 <div class="input-group">
                     <label for="parameter1"> Versión : </label>
-                    <input type="text" id="pcbversion" placeholder=" 1.0 ">
+                    <input type="text" id="pcbversion" placeholder=1.0 value="{{variable[0][1]["pcb_parameters"]["pcb_version"]}}">
                 </div>
-                <button onclick="processParameters()"> Guardar </button>
             </div>
         </div>
 
@@ -149,18 +141,105 @@
             <div class="card-content">
                 <div class="input-group">
                     <label for="parameter1"> Color de Stand-by: </label>
-                    <input type="text" id="stand_by" placeholder=" Azul ">
+                    <input type="text" id="stand_by" placeholder=" Azul " value="{{variable[0][1]["pcb_parameters"]["color_leds"]["stand_by_color_led"]}}">
                 </div>
                 <div class="input-group">
                     <label for="parameter1"> Color de Alumno-Ok: </label>
-                    <input type="text" id="ok_student" placeholder=" Verde ">
+                    <input type="text" id="ok_student" placeholder=" Verde " value="{{variable[0][1]["pcb_parameters"]["color_leds"]["ok_student_color_led"]}}">
                 </div>
                 <div class="input-group">
                     <label for="parameter1"> Color de Alumno-Error: </label>
-                    <input type="text" id="error_student" placeholder=" Rojo ">
+                    <input type="text" id="error_student" placeholder=" Rojo " value="{{variable[0][1]["pcb_parameters"]["color_leds"]["error_student_color_led"]}}">
                 </div>
-                <button onclick="processParameters()"> Guardar </button>
             </div>
+        </div>
+
+        <div class="container">
+            <h2> Variables de Entorno </h2>
+            <div class="container-2">
+                <div class="input-group">
+                    <div class="column-2">
+                        <label for="app_server_url"> App server (url): </label>
+                        <input class="column-3" type="text" id="app_server_url" placeholder="https://www.edumediamanager.com" value="{{variable[0][1]["environment_variables"]["app_server_url"]}}">
+                    </div>
+                    <div class="column-2">
+                        <label for="module_type"> Tipo de módulo: </label>
+                        <select class="column-3" id="selection_module_type">
+                            <option value="check_in_out" >  check_in_out </option>
+                            <option value="checkout"> checkout </option>
+                            <option value="check_in_out_edumedia"> check_in_out_edumedia </option>
+                            <option value="torniquete_edumedia"> torniquete_edumedia </option>
+                        </select>
+                    </div>
+                    <div class="column-2">
+                        <label for="timezone"> Zona horaria: </label>
+                        <select class="column-3" id="selection_timezone">
+                            <option value="America/Mexico_City">  America/Mexico_City </option>
+                            <option value="America/Los_Angeles"> America/Los_Angeles </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="column-2">
+                        <label for="plantel_identificador"> Identificador del plantel: </label>
+                        <input class="column-3" type="text" id="plantel_identificador" placeholder="nnccopos82" value="{{variable[0][1]["environment_variables"]["plantel_identificador"]}}">
+                    </div>
+                    <div class="column-2">
+                        <label for="plantel_nombre"> Nombre del plantel: </label>
+                        <input class="column-3" type="text" id="plantel_nombre" placeholder="PREPA*1" value="{{variable[0][1]["environment_variables"]["plantel_nombre"]}}">
+                    </div>
+                    <div class="column-2">
+                        <label for="individuo_identificador"> Tipo de identificación: </label>
+                        <select class="column-3" id="identification_type">
+                            <option value="RFID">  RFID </option>
+                            <option value="NUMERO_DE_CONTROL"> NUMERO_DE_CONTROL </option>
+                            <option value="CODIGO_BARRAS"> CODIGO_BARRAS </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="column">
+                <h2>  Actualizar Alumnos </h2>
+                <div class="field">
+                    <label for="selection1"> Seleccionar: </label>
+                    <select id="selection1">
+                        <option value="on">  On </option>
+                        <option value="off" selected>Off</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="column">
+                <h2> Sincronizar Registros </h2>
+                <div class="field">
+                    <label for="selection2"> Seleccionar: </label>
+                    <select id="selection2">
+                        <option value="on">On</option>
+                        <option value="off" selected>Off</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="column">
+                <h2> Crear Base de Datos </h2>
+                <div class="field">
+                    <label for="selection3"> Seleccionar: </label>
+                    <select id="selection3">
+                        <option value="on">On</option>
+                        <option value="off" selected >Off</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>JSON Formatter</h2>
+            <textarea id="jsonInput" placeholder="Enter JSON here"></textarea>
+            <button onclick="formatJson()">Format JSON</button>
+            <pre id="formattedOutput"></pre>
         </div>
 
         <script>
@@ -180,6 +259,154 @@
                 input.value = ''
                 event.preventDefault()
             }
+
+            var variable =  {{ variable[0][1] | tojson | safe }};
+            var days = variable["pcb_parameters"]["days_turned_on"];
+
+            if ( days.includes("mon")) {
+                document.getElementById("monday").checked  = true
+            } 
+
+            if ( days.includes("tue")) {
+                document.getElementById("tuesday").checked  = true
+            } 
+
+            if ( days.includes("wed")) {
+                document.getElementById("wednesday").checked  = true
+            } 
+
+            if ( days.includes("thu")) {
+                document.getElementById("thursday").checked  = true
+            } 
+
+            if ( days.includes("fri")) {
+                document.getElementById("friday").checked  = true
+            } 
+
+            if ( days.includes("sat")) {
+                document.getElementById("saturday").checked  = true
+            } 
+
+            if ( days.includes("sun")) {
+                document.getElementById("sunday").checked  = true
+            } 
+
+            
+            if (variable["environment_variables"]["tipo_modulo"] == "check_in_out") {
+                document.getElementById("selection_module_type").value = "check_in_out"
+            }
+
+            if (variable["environment_variables"]["tipo_modulo"] == "checkout") {
+                document.getElementById("selection_module_type").value = "checkout"
+            }
+
+            if (variable["environment_variables"]["tipo_modulo"] == "check_in_out_edumedia") {
+                document.getElementById("selection_module_type").value = "check_in_out_edumedia"
+            }
+
+            if (variable["environment_variables"]["tipo_modulo"] == "torniquete_edumedia") {
+                document.getElementById("selection_module_type").value = "torniquete_edumedia"
+            } 
+
+            if (variable["environment_variables"]["timezone"] == "America/Mexico_City") {
+                document.getElementById("selection_timezone").value = "America/Mexico_City"
+            }
+
+            if (variable["environment_variables"]["timezone"] == "America/Los_Angeles") {
+                document.getElementById("selection_timezone").value = "America/Los_Angeles"
+            }
+
+            if (variable["environment_variables"]["individuo_identificador"] == "RFID") {
+                document.getElementById("identification_type").value = "RFID"
+            }
+
+            if (variable["environment_variables"]["individuo_identificador"] == "NUMERO_DE_CONTROL") {
+                document.getElementById("identification_type").value = "NUMERO_DE_CONTROL"
+            }
+
+            if (variable["environment_variables"]["individuo_identificador"] == "CODIGO_BARRAS") {
+                document.getElementById("identification_type").value = "CODIGO_BARRAS"
+            } 
+
+            var on_hour_ = parseInt(document.getElementById("on_hour").value);
+            var on_minute_ = parseInt(document.getElementById("on_minute").value);
+            var on_second_ = parseInt(document.getElementById("on_second").value);
+            var off_hour_ = parseInt(document.getElementById("off_hour").value);
+            var off_minute_ = parseInt(document.getElementById("off_minute").value);
+            var off_second_ = parseInt(document.getElementById("off_second").value);
+            var day_list = [];
+
+            if (document.getElementById("monday").checked  == true){
+                day_list.push("mon");
+            }
+            if (document.getElementById("tuesday").checked  == true){
+                day_list.push("tue");
+            }
+            if (document.getElementById("wednesday").checked  == true){
+                day_list.push("wed");
+            }
+            if (document.getElementById("thursday").checked  == true){
+                day_list.push("thu");
+            }
+            if (document.getElementById("friday").checked  == true){
+                day_list.push("fri");
+            }
+            if (document.getElementById("saturday").checked  == true){
+                day_list.push("sat");
+            }
+            if (document.getElementById("sunday").checked  == true){
+                day_list.push("sun");
+            }
+
+            var timezone_ = parseInt(document.getElementById("timezone").value);
+            var ssid_ = document.getElementById("ssid").value;
+            var password_ = document.getElementById("password").value;
+            var pcb_id_ = parseInt(document.getElementById("pcb_id").value);
+            
+            var pcb_details_list = [document.getElementById("detail1").value, document.getElementById("detail2").value];
+
+            var pcbversion_ = parseFloat(document.getElementById("pcbversion").value);
+
+            var request_json =  {
+            "pcb_parameters": {
+                "turn_on_time": [on_hour_, on_minute_, on_second_],
+                "turn_off_time": [off_hour_, off_minute_, off_second_],
+                "days_turned_on": day_list,
+                "timezone_offset": timezone_,
+                "wifi_parameters": {
+                    "ssid": ssid_,
+                    "password": password_,
+                },
+                "pcb_id": pcb_id_,
+                "pcb_details": pcb_details_list,
+                "pcb_version": pcbversion_,
+                "color_leds": {
+                    "stand_by_color_led": "blue",
+                    "ok_student_color_led": "green",
+                    "error_student_color_led": "red",
+                }
+            },
+            "actions": {
+                "import_students": false,
+                "sync_data": false,
+                "schema_creation": false
+            },
+            "environment_variables": {
+                "app_server_url": "https://www.edumediamanager.com",
+                "tipo_modulo": "check_in_out_edumedia",
+                "timezone": "America/Mexico_City",
+                "plantel_identificador": "nnccopos82",
+                "plantel_nombre": "PREPA*1",
+                "individuo_identificador": "RFID",
+            },
+            "status": {
+                "raspberry": false,
+                "esp32": false
+            }
+            }
+
+            console.log(request_json);
+
         </script>
     </body>
 </html>

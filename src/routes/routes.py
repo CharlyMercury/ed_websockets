@@ -15,17 +15,57 @@ app_routes = APIRouter()
 manager = SocketManager()
 
 
+database_schools = [
+    [
+        {"plantel": " Prepa 1"},
+        {
+            "pcb_parameters": {
+                "turn_on_time": [6, 0, 0],
+                "turn_off_time": [20, 0, 0],
+                "days_turned_on": ["mon", "tue", "wed", "thu", "fri"],
+                "timezone_offset": -6,
+                "wifi_parameters": {
+                    "ssid": "IZZI-6D04",
+                    "password": "F0AF85386D04",
+                },
+                "pcb_id": 1,
+                "pcb_details":
+                    ["Pcb instalado en la Prepa 1. ", "Módulo instalado en la entrada principal del edificio. "],
+                "pcb_version": 1.1,
+                "color_leds": {
+                    "stand_by_color_led": "blue",
+                    "ok_student_color_led": "green",
+                    "error_student_color_led": "red",
+                }
+            },
+            "actions": {
+                "import_students": False,
+                "sync_data": False,
+                "schema_creation": False
+            },
+            "environment_variables": {
+                "app_server_url": "https://www.edumediamanager.com",
+                "tipo_modulo": "check_in_out_edumedia",
+                "timezone": "America/Mexico_City",
+                "plantel_identificador": "nnccopos82",
+                "plantel_nombre": "PREPA*1",
+                "individuo_identificador": "RFID",
+            },
+            "status": {
+                "raspberry": False,
+                "esp32": False
+            }
+        }
+    ]
+]
+
 # Initialize Jinja2 templates
 templates = Jinja2Templates(directory="src/views/")
 
 
 @app_routes.get(path='/', response_class=HTMLResponse)
 async def get(request: Request):
-    device_params = {
-        "plantel": " Prepa 1"
-        
-        }
-    return templates.TemplateResponse("access_control_module_status.html", {"request": request, "variable": device_params})
+    return templates.TemplateResponse("access_control_module_status.html", {"request": request, "variable": database_schools})
     # return FileResponse('src/views/access_control_module_status.html')
 
 
