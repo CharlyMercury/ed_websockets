@@ -9,47 +9,161 @@
         <h2>Your ID: <span id="ws-id"></span></h2>
         <form action="" onsubmit="sendMessage(event)">
             <input type="text" id="messageText" autocomplete="off"/>
-            <button>Send</button>
+            <button> Enviar </button>
         </form>
         <ul id='messages'>
         </ul>
 
         <div class="card">
-            <h2> Turn on Time</h2>
+            <h2> Hora de Encendido </h2>
             <div class="input-group">
-                <label for="hours">Hours:</label>
+                <label for="hours"> Hora: </label>
                 <input type="number" id="on_hour" placeholder="0" min="0" max="23">
             </div>
             <div class="input-group">
-                <label for="minutes">Minutes:</label>
+                <label for="minutes"> Minuto: </label>
                 <input type="number" id="on_minute" placeholder="0" min="0" max="59">
             </div>
             <div class="input-group">
-                <label for="seconds">Seconds:</label>
+                <label for="seconds"> Segundo: </label>
                 <input type="number" id="on_second" placeholder="0" min="0" max="59">
             </div>
-            <button onclick="saveTime()">Save</button>
+            <button onclick="saveTime()"> Guardar </button>
         </div>
 
-
         <div class="card">
-            <h2> Turn off Time</h2>
+            <h2> Hora de Apagado </h2>
             <div class="input-group">
-                <label for="hours">Hours:</label>
+                <label for="hours"> Hora: </label>
                 <input type="number" id="off_hour" placeholder="0" min="0" max="23">
             </div>
             <div class="input-group">
-                <label for="minutes">Minutes:</label>
+                <label for="minutes">  Minuto: </label>
                 <input type="number" id="off_minute" placeholder="0" min="0" max="59">
             </div>
             <div class="input-group">
-                <label for="seconds">Seconds:</label>
+                <label for="seconds"> Segundo: </label>
                 <input type="number" id="off_second" placeholder="0" min="0" max="59">
             </div>
-            <button onclick="saveTime()">Save</button>
+            <button onclick="saveTime()"> Guardar </button>
         </div>
 
-<script>
+        <div class="card">
+            <h2> Días de la semana de encendido </h2>
+            <div class="input-group">
+                <div class="day-checkbox">
+                    <input type="checkbox" id="monday">
+                    <label for="monday"> Lunes </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="tuesday">
+                    <label for="tuesday"> Martes </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="wednesday">
+                    <label for="wednesday"> Miércoles </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="thursday">
+                    <label for="thursday"> Jueves </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="friday">
+                    <label for="friday"> Viernes </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="saturday">
+                    <label for="saturday"> Sábado </label>
+                </div>
+                <div class="day-checkbox">
+                    <input type="checkbox" id="sunday">
+                    <label for="sunday"> Domingo </label>
+                </div>
+            </div>
+            <button onclick="saveTime()"> Gardar </button>
+        </div>
+
+        <div class="card">
+            <h2> Zona Horaria </h2>
+            <div class="input-group">
+                <label for="hours"> Zona horaria: </label>
+                <input type="number" id="timezone" placeholder="0" min="-12" max="14">
+            </div>
+            <button onclick="saveTime()"> Guardar </button>
+        </div>
+
+        <div class="card">
+            <h2>  Parámetros WiFi </h2>
+            <div class="card-content">
+                <div class="input-group">
+                    <label for="parameter1"> SSID: </label>
+                    <input type="text" id="ssid" placeholder=" Nombre de la Red ">
+                </div>
+                <div class="input-group">
+                    <label for="parameter2"> Contraseña: </label>
+                    <input type="text" id="password" placeholder=" Contraseña ">
+                </div>
+                <button onclick="processParameters()"> Guardar </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>  Pcb Id </h2>
+            <div class="card-content">
+                <div class="input-group">
+                    <label for="parameter3"> PCB Id: </label>
+                    <input type="text" id="pcb_id" placeholder=" 1 ">
+                </div>
+                <button onclick="processParameters()"> Guardar </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>  Detalles del PCB </h2>
+            <div class="card-content">
+                <div class="input-group">
+                    <label for="parameter1"> Característica 1 : </label>
+                    <input type="text" id="detail1" placeholder="PCB installed in CBTIS 0. ">
+                </div>
+                <div class="input-group">
+                    <label for="parameter2"> Característica 2: </label>
+                    <input type="text" id="detail2" placeholder=" PCB  installed next to main building. ">
+                </div>
+                <button onclick="processParameters()"> Guardar </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>  Versión del PCB </h2>
+            <div class="card-content">
+                <div class="input-group">
+                    <label for="parameter1"> Versión : </label>
+                    <input type="text" id="pcbversion" placeholder=" 1.0 ">
+                </div>
+                <button onclick="processParameters()"> Guardar </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>  Colores de Leds </h2>
+            <div class="card-content">
+                <div class="input-group">
+                    <label for="parameter1"> Color de Stand-by: </label>
+                    <input type="text" id="stand_by" placeholder=" Azul ">
+                </div>
+                <div class="input-group">
+                    <label for="parameter1"> Color de Alumno-Ok: </label>
+                    <input type="text" id="ok_student" placeholder=" Verde ">
+                </div>
+                <div class="input-group">
+                    <label for="parameter1"> Color de Alumno-Error: </label>
+                    <input type="text" id="error_student" placeholder=" Rojo ">
+                </div>
+                <button onclick="processParameters()"> Guardar </button>
+            </div>
+        </div>
+
+        <script>
             var client_id = Date.now()
             document.querySelector("#ws-id").textContent = client_id;
             var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);

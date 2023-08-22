@@ -36,3 +36,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# To run uvicorn server:app --reload
