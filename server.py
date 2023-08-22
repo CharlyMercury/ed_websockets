@@ -14,6 +14,13 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.include_router(app_routes)
 
+
+app.mount(
+    "/static",
+    StaticFiles(directory=Path(__file__).parent.parent.absolute() / 'ed_websocket\\src\\views\\static'),
+    name="static",
+)
+
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",

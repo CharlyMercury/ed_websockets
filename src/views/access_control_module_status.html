@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Control de Acceso </title>
+        <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+    </head>
+    <body>
+        <h1> Panel de Control: {{ variable["plantel"] }} </h1>
+        <h2>Your ID: <span id="ws-id"></span></h2>
+        <form action="" onsubmit="sendMessage(event)">
+            <input type="text" id="messageText" autocomplete="off"/>
+            <button>Send</button>
+        </form>
+        <ul id='messages'>
+        </ul>
+
+        <div class="card">
+            <h2> Turn on Time</h2>
+            <div class="input-group">
+                <label for="hours">Hours:</label>
+                <input type="number" id="on_hour" placeholder="0" min="0" max="23">
+            </div>
+            <div class="input-group">
+                <label for="minutes">Minutes:</label>
+                <input type="number" id="on_minute" placeholder="0" min="0" max="59">
+            </div>
+            <div class="input-group">
+                <label for="seconds">Seconds:</label>
+                <input type="number" id="on_second" placeholder="0" min="0" max="59">
+            </div>
+            <button onclick="saveTime()">Save</button>
+        </div>
+
+
+        <div class="card">
+            <h2> Turn off Time</h2>
+            <div class="input-group">
+                <label for="hours">Hours:</label>
+                <input type="number" id="off_hour" placeholder="0" min="0" max="23">
+            </div>
+            <div class="input-group">
+                <label for="minutes">Minutes:</label>
+                <input type="number" id="off_minute" placeholder="0" min="0" max="59">
+            </div>
+            <div class="input-group">
+                <label for="seconds">Seconds:</label>
+                <input type="number" id="off_second" placeholder="0" min="0" max="59">
+            </div>
+            <button onclick="saveTime()">Save</button>
+        </div>
+
+<script>
+            var client_id = Date.now()
+            document.querySelector("#ws-id").textContent = client_id;
+            var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var content = document.createTextNode(event.data)
+                message.appendChild(content)
+                messages.appendChild(message)
+            };
+            function sendMessage(event) {
+                var input = document.getElementById("messageText")
+                ws.send(input.value)
+                input.value = ''
+                event.preventDefault()
+            }
+        </script>
+    </body>
+</html>
