@@ -75,10 +75,17 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"You wrote: {data}", websocket)
+            data_json = json.loads(data)
+            data_json.update({"id_response":client_id})
+            data = json.dumps(data_json)
+            # await manager.send_personal_message(f"You wrote: {data}", websocket)
             # await manager.broadcast(f"Client #{client_id} says: {data}")
             await manager.broadcast(data)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast(f"Client #{client_id} left the chat")
+        # await manager.broadcast(f"Client #{client_id} left the chat")
 
+
+def update_json(data):
+    pass
+    # print(data)

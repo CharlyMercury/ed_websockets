@@ -2,17 +2,13 @@
 <html>
     <head>
         <title> Control de Acceso </title>
+        <link rel="icon" href="static/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href="static/css/styles.css">
     </head>
     <body>
         <h1> Panel de Control: {{ variable[0][0]["plantel"] }} </h1>
         <h2>Your ID: <span id="ws-id"></span></h2>
-        <form action="" onsubmit="sendMessage(event)">
-            <input type="text" id="messageText" autocomplete="off"/>
-            <button> Enviar </button>
-        </form>
-        <ul id='messages'>
-        </ul>
+
 
         <div class="card">
             <h2> Estatus del módulo </h2>
@@ -22,7 +18,7 @@
             </div>
             <div class="input-group">
                 <label for="minutes"> Estatus de la Esp32: </label>
-                <button onclick="raspberryStatus()"> Estado de la Esp32 </button>
+                <button onclick="espStatus()"> Estado de la Esp32 </button>
             </div>
         </div>
 
@@ -249,13 +245,20 @@
 
         <div>
             <h2>  JSON Viewer  </h2>
+            <button onclick="sendJson()"> See Json and Send </button>
             <div>
                 <div>
                     <textarea style="height: 1000px; width: 600px;" id="jsonInput" placeholder="See Your JSON here "> </textarea>
                 </div>
             </div>
-                <button onclick="sendJson()"> See Json and Send </button>
         </div>
+
+        <form action="" onsubmit="sendMessage(event)">
+            <!--input type="text" id="messageText" autocomplete="off"/>
+            <button> Enviar </button-->
+        </form>
+        <ul id='messages'>
+        </ul>
 
         <script>
             var client_id = Date.now();
@@ -268,6 +271,20 @@
                 var content = document.createTextNode(event.data);
                 message.appendChild(content);
                 messages.appendChild(message);
+                event.preventDefault();
+
+                var server_response = JSON.parse(event.data, null, 4);
+
+                if (server_response["id_response"] == parseInt(document.getElementById("pcb_id").value) ) {
+                    setTimeout(function() {
+                        ws.close();
+                    }, 5000);
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 5000);
+                }
+                
             };
             
             function sendMessage(event) {
@@ -277,6 +294,7 @@
                 event.preventDefault();
             }
 
+                
             var variable =  {{ variable[0][1] | tojson | safe }};
             var days = variable["pcb_parameters"]["days_turned_on"];
 
@@ -307,7 +325,6 @@
             if ( days.includes("sun")) {
                 document.getElementById("sunday").checked  = true;
             } 
-
             
             if (variable["environment_variables"]["tipo_modulo"] == "check_in_out") {
                 document.getElementById("selection_module_type").value = "check_in_out";
@@ -397,17 +414,17 @@
                 var identification_type_ = document.getElementById("identification_type").value;
 
                 var import_students_= false;
-                if (document.getElementById("import_students").value == true) {
+                if (document.getElementById("import_students").value == "on") {
                     import_students_ = true;
                 }
 
                 var sync_data_ = false;
-                if (document.getElementById("sync_data").value == true) {
+                if (document.getElementById("sync_data").value == "on") {
                     sync_data_ = true;
                 }
 
                 var schema_creation_ = false;
-                if (document.getElementById("schema_creation").value == true) {
+                if (document.getElementById("schema_creation").value == "on") {
                     schema_creation_ = true;
                 }
 
@@ -449,6 +466,7 @@
                 }
                 }
                 resultElement.textContent = JSON.stringify(request_json, null, 4);
+                ws.send(resultElement.textContent);
             }
 
         </script>
