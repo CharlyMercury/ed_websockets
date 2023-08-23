@@ -81,3 +81,12 @@ label {
     flex: 1;
     padding: 5px;
 }
+
+textarea {
+    width: 100%; /* Take up full width of its container */
+    height: auto; /* Allow variable height based on content */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; /* Allow vertical resizing */
+}
