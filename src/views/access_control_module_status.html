@@ -362,10 +362,11 @@
             var ssid_ = document.getElementById("ssid").value;
             var password_ = document.getElementById("password").value;
             var pcb_id_ = parseInt(document.getElementById("pcb_id").value);
-            
             var pcb_details_list = [document.getElementById("detail1").value, document.getElementById("detail2").value];
-
             var pcbversion_ = parseFloat(document.getElementById("pcbversion").value);
+            var stand_by_ = document.getElementById("stand_by").value;
+            var ok_student_ = document.getElementById("ok_student").value;
+            var error_student_ = document.getElementById("error_student").value;
 
             var request_json =  {
             "pcb_parameters": {
@@ -381,9 +382,9 @@
                 "pcb_details": pcb_details_list,
                 "pcb_version": pcbversion_,
                 "color_leds": {
-                    "stand_by_color_led": "blue",
-                    "ok_student_color_led": "green",
-                    "error_student_color_led": "red",
+                    "stand_by_color_led": stand_by_,
+                    "ok_student_color_led": ok_student_,
+                    "error_student_color_led": error_student_,
                 }
             },
             "actions": {
