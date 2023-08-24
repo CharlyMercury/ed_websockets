@@ -7,6 +7,8 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 from starlette.responses import FileResponse 
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import JSONResponse
+
 
 # From helpers server folder
 from src.helpers.socket_manager import SocketManager
@@ -59,6 +61,9 @@ database_schools = [
     ]
 ]
 
+
+last_response = {}
+
 # Initialize Jinja2 templates
 templates = Jinja2Templates(directory="src/views/")
 
@@ -66,8 +71,17 @@ templates = Jinja2Templates(directory="src/views/")
 @app_routes.get(path='/', response_class=HTMLResponse)
 async def get(request: Request):
     return templates.TemplateResponse("access_control_module_status.html", {"request": request, "variable": database_schools})
-    # return FileResponse('src/views/access_control_module_status.html')
 
+@app_routes.post(path="/response")
+async def destination_endpoint(request: Request):
+    global last_response
+    data = await request.json()
+    last_response = data
+    return JSONResponse(content=last_response)
+
+@app_routes.get(path='/response', response_class=HTMLResponse)
+async def get(request: Request):
+    return templates.TemplateResponse("response_module.html", {"request": request, "variable": last_response})
 
 @app_routes.websocket(path="/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):

@@ -83,10 +83,22 @@ label {
 }
 
 textarea {
-    width: 100%; /* Take up full width of its container */
+    width: 90%; /* Take up full width of its container */
     height: auto; /* Allow variable height based on content */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: vertical; /* Allow vertical resizing */
+}
+
+
+.card-json {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
 }
