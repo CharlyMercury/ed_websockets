@@ -9,7 +9,6 @@
         <h1> Panel de Control: {{ variable[0][0]["plantel"] }} </h1>
         <h2>Your ID: <span id="ws-id"></span></h2>
 
-
         <div class="card">
             <h2> Estatus del módulo </h2>
             <div class="input-group">
@@ -20,6 +19,9 @@
                 <label for="minutes"> Estatus de la Esp32: </label>
                 <button onclick="espStatus()"> Estado de la Esp32 </button>
             </div>
+
+            <div id="statusReponse"></div>
+
         </div>
 
         <div class="card">
@@ -270,8 +272,10 @@
             var client_id = Date.now();
             document.querySelector("#ws-id").textContent = client_id;
             var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            var request_json = {}
             
             ws.onmessage = function(event) {
+
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
                 var content = document.createTextNode(event.data);
@@ -282,37 +286,73 @@
                 var server_response = JSON.parse(event.data, null, 4);
 
                 if (server_response["id_response"] == parseInt(document.getElementById("pcb_id").value) ) {
-                    setTimeout(function() {
-                        ws.close();
-                    }, 5000);
 
-                    //setTimeout(function() {
-                    //    location.reload();
-                    //}, 5000);
+                    if (server_response["esp_status"] == true) {
 
-                    // var encodedData = encodeURIComponent(JSON.stringify(server_response));
-                    // var targetURL = "//localhost:8000/response?data=" + encodedData;
-                    // window.location.href = targetURL;
+                        setTimeout(function() {
+                            const status_detail = "Esp32 Activa"
+                            const statusElement = document.getElementById('statusReponse');
+                            statusElement.textContent = status_detail;
+                            setTimeout(function() { statusElement.textContent = "" }, 5000);
+                        }, 500);                        
 
-                    fetch('http://localhost:8000/response', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(server_response)
-                    })
-                    .then(response => {
-                        if (response.status === 200) {
-                            var targetURL = "http://localhost:8000/response";
-                            window.location.href = targetURL;
-                        } else {
-                            console.error('Unexpected response:', response);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('An error occurred:', error);
-                    });
+                    } else if (server_response["raspberry_status"] == true ) {
 
+                        setTimeout(function() {
+                            const status_detail = "Raspberry Activa"
+                            const statusElement = document.getElementById('statusReponse');
+                            statusElement.textContent = status_detail;
+                            setTimeout(function() { statusElement.textContent = "" }, 5000);
+                        }, 500);
+
+                    } else {
+
+                        setTimeout(function() {
+                            ws.close();
+                        }, 5000);
+
+                        //setTimeout(function() {
+                        //    location.reload();
+                        //}, 5000);
+
+                        // var encodedData = encodeURIComponent(JSON.stringify(server_response));
+                        // var targetURL = "//localhost:8000/response?data=" + encodedData;
+                        // window.location.href = targetURL;
+
+                        fetch('http://localhost:8000/updatejson', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({server_response,request_json})
+                        })
+                        .then(response => {
+                        })
+                        .catch(error => {
+                            console.error('An error occurred:', error);
+                        });
+
+
+                        fetch('http://localhost:8000/response', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(server_response)
+                        })
+                        .then(response => {
+                            if (response.status === 200) {
+                                var targetURL = "http://localhost:8000/response";
+                                window.location.href = targetURL;
+                            } else {
+                                console.error('Unexpected response:', response);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('An error occurred:', error);
+                        });
+
+                    }
 
                 }
                 
@@ -393,6 +433,32 @@
                 document.getElementById("identification_type").value = "CODIGO_BARRAS";
             } 
 
+            function raspberryStatus(event) {
+
+                var pcb_id_ = parseInt(document.getElementById("pcb_id").value);
+                request_json = {
+                "pcb_parameters": {
+                    "pcb_id": pcb_id_,
+                },
+                "raspberry_status": true
+                }
+                var request_str = JSON.stringify(request_json, null, 4);
+                ws.send(request_str);
+            }
+
+            function espStatus(event) {
+                
+                var pcb_id_ = parseInt(document.getElementById("pcb_id").value);
+                request_json = {
+                "pcb_parameters": {
+                    "pcb_id": pcb_id_,
+                },
+                "esp_status": true
+                }
+                var request_str = JSON.stringify(request_json, null, 4);
+                ws.send(request_str);
+            }
+
             function sendJson(event) {
 
                 const resultElement = document.getElementById('jsonInput');
@@ -459,7 +525,7 @@
                     schema_creation_ = true;
                 }
 
-                var request_json =  {
+                request_json =  {
                 "pcb_parameters": {
                     "turn_on_time": [on_hour_, on_minute_, on_second_],
                     "turn_off_time": [off_hour_, off_minute_, off_second_],
@@ -499,7 +565,6 @@
                 resultElement.textContent = JSON.stringify(request_json, null, 4);
                 ws.send(resultElement.textContent);
             }
-
             
             function seeJson(event) {
 

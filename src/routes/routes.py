@@ -79,6 +79,12 @@ async def destination_endpoint(request: Request):
     last_response = data
     return JSONResponse(content=last_response)
 
+@app_routes.post(path="/updatejson")
+async def destination_endpoint(request: Request):
+    data = await request.json()
+    update_json(data)
+    return JSONResponse(content=last_response)
+
 @app_routes.get(path='/response', response_class=HTMLResponse)
 async def get(request: Request):
     return templates.TemplateResponse("response_module.html", {"request": request, "variable": last_response})
@@ -101,5 +107,4 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 
 def update_json(data):
-    pass
-    # print(data)
+    print(data)

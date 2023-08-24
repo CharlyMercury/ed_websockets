@@ -6,13 +6,20 @@
         <link rel="stylesheet" type="text/css" href="static/css/styles.css">
     </head>
 <body>
-    <h1> JSON Cards Display </h1>
+
+    <h1> Respuesta del módulo </h1>
+
+    <div>
+        <button onclick="returnHome()"> Regresar a la página principal </button>
+    </div>
+
     <div id="cardContainer"></div>
 
     <script>
 
         var jsonData = {{ variable | tojson | safe }};
         const cardContainer = document.getElementById('cardContainer');
+        var message_pcb_parameters = ""
 
         for (var key in jsonData) {
 
@@ -23,12 +30,51 @@
             title.textContent = key;
 
             const content = document.createElement('p');
-            content.textContent = JSON.stringify(jsonData[key]);
+            // content.textContent = JSON.stringify(jsonData[key]);
+            const listContainer = document.getElementById('listContainer');
+            if (key == "pcb_parameters") {
+                for ( var key in jsonData["pcb_parameters"]) {
+                    const listItem = document.createElement('li');
+                    if (jsonData["pcb_parameters"][key] == "already on embedded") {
+                        message_pcb_parameters = "Parámetro sin cambio.";
+                    } else {
+                        message_pcb_parameters = jsonData["pcb_parameters"][key];
+                    }
+                    listItem.textContent = key + ": " + message_pcb_parameters;
+                    content.appendChild(listItem);
+                }
+            }
+
+            if (key == "id_response") {
+                content.textContent = JSON.stringify(jsonData[key]);
+            }
+
+            if (key == "actions") {
+                // content.textContent = JSON.stringify(jsonData[key]);
+
+                for ( var key in jsonData["actions"]) {
+                    const listItem = document.createElement('li');
+                    var message_pcb_parameters = jsonData["actions"][key] 
+                    listItem.textContent = key + ": " + message_pcb_parameters;
+                    content.appendChild(listItem);
+                }
+
+            }
+
+            if (key == "environment_variables") {
+                content.textContent = JSON.stringify(jsonData[key]);
+            }
 
             card.appendChild(title);
             card.appendChild(content);
             cardContainer.appendChild(card);
         }
+
+        function returnHome(event) {
+            var targetURL = "http://localhost:8000/";
+            window.location.href = targetURL;
+        }
+
     </script>
 </body>
 </html>
