@@ -30,7 +30,7 @@
             title.textContent = key;
 
             const content = document.createElement('p');
-            // content.textContent = JSON.stringify(jsonData[key]);
+
             const listContainer = document.getElementById('listContainer');
             if (key == "pcb_parameters") {
                 for ( var key in jsonData["pcb_parameters"]) {
@@ -50,7 +50,6 @@
             }
 
             if (key == "actions") {
-                // content.textContent = JSON.stringify(jsonData[key]);
 
                 for ( var key in jsonData["actions"]) {
                     const listItem = document.createElement('li');
@@ -71,7 +70,7 @@
         }
 
         function returnHome(event) {
-            // var targetURL = "http://localhost:8000/";
+            //var targetURL = "http://localhost:8000/";
             var targetURL = "https://edumedia-ca-9ee0c2643de4.herokuapp.com/";
             window.location.href = targetURL;
         }
