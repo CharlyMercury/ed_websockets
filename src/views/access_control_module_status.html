@@ -272,7 +272,7 @@
             var client_id = Date.now();
             document.querySelector("#ws-id").textContent = client_id;
             // var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
-            var ws = new WebSocket(`https://edumedia-ca-9ee0c2643de4.herokuapp.com/ws/${client_id}`);
+            var ws = new WebSocket(`ws://edumedia-ca-9ee0c2643de4.herokuapp.com/ws/${client_id}`);
             var request_json = {}
             
             ws.onmessage = function(event) {
