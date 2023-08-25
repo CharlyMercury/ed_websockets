@@ -100,8 +100,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             data = json.dumps(data_json)
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
             # await manager.broadcast(f"Client #{client_id} says: {data}")
-            for active_connection in manager.active_connections:
-                print(active_connection.values, active_connection.state, active_connection.client)
+            print(data)
             await manager.broadcast(data)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
