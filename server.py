@@ -50,3 +50,4 @@ app.add_middleware(
 )
 
 # To run uvicorn server:app --reload
+# web: uvicorn server:app --host=0.0.0.0 --port=${PORT:-5000} --ws-ping-interval 300 --ws-ping-timeout 300
