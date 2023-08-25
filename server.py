@@ -1,5 +1,6 @@
 # from python 
 import logging
+import os
 from pathlib import Path
 
 # from uvicorn
@@ -11,15 +12,25 @@ from fastapi.staticfiles import StaticFiles
 from src.routes.routes import app_routes
 from fastapi.middleware.cors import CORSMiddleware
 
+
+script_dir = os.path.dirname(__file__)
+st_abs_file_path = os.path.join(script_dir, "src/views/static/")
+
+# app.mount("/static", StaticFiles(directory=st_abs_file_path), name="static")
+
+
 app = FastAPI()
 app.include_router(app_routes)
 
+app.mount("/static", StaticFiles(directory=st_abs_file_path ), name="static")
 
-app.mount(
+
+"""app.mount(
     "/static",
-    StaticFiles(directory=Path(__file__).parent.parent.absolute() / 'ed_websocket\\src\\views\\static'),
+      
+    StaticFiles(directory=Path(__file__).parent.parent.absolute() / 'ed_websocket/src/views/static'),
     name="static",
-)
+)"""
 
 origins = [
     "http://localhost.tiangolo.com",
