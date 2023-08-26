@@ -91,20 +91,20 @@ async def get(request: Request):
 
 @app_routes.websocket(path="/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    await manager.connect(websocket)
+    await manager.connect(client_id, websocket)
     try:
         while True:
             data = await websocket.receive_text()
             data_json = json.loads(data)
             data_json.update({"id_response":client_id})
             data = json.dumps(data_json)
-            # await manager.send_personal_message(f"You wrote: {data}", websocket)
-            # await manager.broadcast(f"Client #{client_id} says: {data}")
-            for active_connection in manager.active_connections:
-                print(dir(active_connection))
+            # if "pcb_parameters" in data_json and data_json["pcb_parameters"]["pcb_id"] in manager.ids:
+            #    print("vas a recibir una respuesta")
+            # else:
+            #    print("no vas a recibir respuesta")
             await manager.broadcast(data)
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        manager.disconnect(client_id, websocket)
         # await manager.broadcast(f"Client #{client_id} left the chat")
 
 
