@@ -12,7 +12,6 @@ class SocketManager:
 
     def __init__(self):
         self.active_connections: List[WebSocket] = []
-        self.ids = []
     
     async def connect(self, websocket: WebSocket):
         """ Connection server-client function """
