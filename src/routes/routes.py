@@ -100,7 +100,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             data = json.dumps(data_json)
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
             # await manager.broadcast(f"Client #{client_id} says: {data}")
-            print(data)
+            for active_connection in manager.active_connections:
+                print(dir(active_connection))
             await manager.broadcast(data)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
@@ -108,5 +109,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 
 def update_json(data):
-    pass
-    # print(data)
+    raspberry_response = data["raspberry_response"]["pcb_parameters"]
+    json_sended = data["json_sended"]
+    
+    for key, values in raspberry_response.items():
+        if "Actualizado" in values:
+            database_schools[0][1]["pcb_parameters"][key] = json_sended["pcb_parameters"][key]
