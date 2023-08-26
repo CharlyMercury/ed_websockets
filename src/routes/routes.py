@@ -91,7 +91,7 @@ async def get(request: Request):
 
 @app_routes.websocket(path="/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    await manager.connect(client_id, websocket)
+    await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
@@ -104,7 +104,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             #    print("no vas a recibir respuesta")
             await manager.broadcast(data)
     except WebSocketDisconnect:
-        manager.disconnect(client_id, websocket)
+        manager.disconnect(websocket)
         # await manager.broadcast(f"Client #{client_id} left the chat")
 
 

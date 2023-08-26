@@ -14,14 +14,12 @@ class SocketManager:
         self.active_connections: List[WebSocket] = []
         self.ids = []
     
-    async def connect(self, user_id: int, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket):
         """ Connection server-client function """
         await websocket.accept()
-        self.ids.append(user_id)
         self.active_connections.append(websocket)
 
-    def disconnect(self, user_id: int, websocket: WebSocket):
-        self.ids.remove(user_id)
+    def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
