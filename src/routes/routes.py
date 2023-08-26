@@ -98,10 +98,6 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
             data_json = json.loads(data)
             data_json.update({"id_response":client_id})
             data = json.dumps(data_json)
-            # if "pcb_parameters" in data_json and data_json["pcb_parameters"]["pcb_id"] in manager.ids:
-            #    print("vas a recibir una respuesta")
-            # else:
-            #    print("no vas a recibir respuesta")
             await manager.broadcast(data)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
