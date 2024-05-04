@@ -272,6 +272,7 @@
             var client_id = Date.now();
             document.querySelector("#ws-id").textContent = client_id;
             //var ws = new WebSocket(`ws://localhost:8000/ws/${client_id}`);
+            //var ws = new WebSocket(`ws://192.168.0.8:8000/ws/${client_id}`);
             var ws = new WebSocket(`ws://edumedia-ca-9ee0c2643de4.herokuapp.com/ws/${client_id}`);
             var request_json = {}
             
@@ -308,12 +309,13 @@
 
                     } else {
 
-                        // setTimeout(function() {
+                        //setTimeout(function() {
                         //    ws.close();
                         //}, 5000);
 
-                        //fetch('http://localhost:8000/updatejson', {
-                        fetch('https://edumedia-ca-9ee0c2643de4.herokuapp.com/updatejson', {
+                        // fetch('http://localhost:8000/updatejson', {
+                        fetch('http://192.168.0.8:8000/updatejson', {
+                        //fetch('https://edumedia-ca-9ee0c2643de4.herokuapp.com/updatejson', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -326,9 +328,9 @@
                             console.error('An error occurred:', error);
                         });
 
-
                         //fetch('http://localhost:8000/response', {
-                        fetch('https://edumedia-ca-9ee0c2643de4.herokuapp.com/response', {
+                        fetch('http://192.168.0.8:8000/response', {
+                        //fetch('https://edumedia-ca-9ee0c2643de4.herokuapp.com/response', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -338,7 +340,8 @@
                         .then(response => {
                             if (response.status === 200) {
                                 //var targetURL = "http://localhost:8000/response";
-                                var targetURL = "https://edumedia-ca-9ee0c2643de4.herokuapp.com/response";
+                                var targetURL = "http://192.168.0.8:8000/response";
+                                //var targetURL = "https://edumedia-ca-9ee0c2643de4.herokuapp.com/response";
                                 window.location.href = targetURL;
                             } else {
                                 console.error('Unexpected response:', response);

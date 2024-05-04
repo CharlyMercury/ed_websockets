@@ -10,6 +10,18 @@ __pycache__/
 # C extensions
 *.so
 
+# AWS CERTIFICATES
+*.cert.pem
+*.private.key
+*.public.key
+*-Policy
+*.crt
+start.sh
+src/parameters_configuration.json
+
+# PYCHARM
+.idea
+
 # Distribution / packaging
 .Python
 build/
