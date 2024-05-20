@@ -67,7 +67,7 @@ async def get_update_db(plantel: str, modulo: int):
         "plantel": plantel,
         "modulo": f"modulo{modulo}",
     }
-    mqtt_client.publish_to_topics(topic_pub_="update/db/cbtis0/modulo1", input_message=message_status)
+    mqtt_client.publish_to_topics(topic_pub_="update/db", input_message=message_status)
     return {"prepa1": "Successfully"}
 
 
@@ -77,7 +77,19 @@ async def get_update_esp32(plantel: str, modulo: int):
         "plantel": plantel,
         "modulo": f"modulo{modulo}",
     }
-    mqtt_client.publish_to_topics(topic_pub_="update/esp32/cbtis0/modulo1", input_message=message_status)
+    mqtt_client.publish_to_topics(topic_pub_="update/esp32", input_message=message_status)
+    return {"prepa1": "Successfully"}
+
+
+@app_routes.get(path='/lectura')
+async def get_update_esp32(request: Request):
+    print(request)
+    return {"prepa1": "Successfully"}
+
+
+@app_routes.post(path='/lectura')
+async def post_update_esp32(request: Request):
+    print(request)
     return {"prepa1": "Successfully"}
 
 
