@@ -1,5 +1,5 @@
 import json
-from typing import Annotated
+from typing import Annotated, Any
 from fastapi import APIRouter, Request, Form
 from fastapi import Body
 from fastapi.responses import HTMLResponse
@@ -84,13 +84,14 @@ async def get_update_esp32(plantel: str, modulo: int):
 @app_routes.get(path='/lectura')
 async def get_update_esp32(request: Request):
     print(Request)
-    return JSONResponse(status_code=200)
+    return JSONResponse(status_code=200, content={"status": "ok"})
 
 
 @app_routes.post(path='/lectura')
-async def post_update_esp32(request: Request):
-    print(request)
-    return {"prepa1": "Successfully"}
+async def post_update_esp32(payload: Any = Body(None)):
+    response_ = payload.decode()
+    print(response_)
+    return JSONResponse(status_code=200, content={"status": "ok"})
 
 
 @app_routes.get(path='/iot/disconnect')
