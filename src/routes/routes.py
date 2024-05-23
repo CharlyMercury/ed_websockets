@@ -20,7 +20,7 @@ app_routes = APIRouter()
 manager = SocketManager()
 
 # Get the current working directory
-current_path = os.getcwd()
+"""current_path = os.getcwd()
 file_path_src = os.path.join(current_path, 'src')
 file_path_certificates = os.path.join(file_path_src, 'certificates')
 
@@ -38,7 +38,7 @@ topics_subs = [
     f'status/response']
 
 mqtt_client = AwsMqttClient(endpoint, port, cert, key, ca, client_id, topics_subs, parameters)
-mqtt_client.subscribe_to_topics()
+mqtt_client.subscribe_to_topics()"""
 
 last_response = {}
 
