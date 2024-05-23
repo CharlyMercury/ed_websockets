@@ -83,8 +83,8 @@ async def get_update_esp32(plantel: str, modulo: int):
 
 @app_routes.get(path='/lectura')
 async def get_update_esp32(request: Request):
-    print(request)
-    return {"prepa1": "Successfully"}
+    print(Request)
+    return JSONResponse(status_code=200)
 
 
 @app_routes.post(path='/lectura')
